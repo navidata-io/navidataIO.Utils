@@ -1,0 +1,13 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <TargetFrameworks>net472;net6.0;net8.0</TargetFrameworks>
+    <RootNamespace>FabricTools.Utils.Tests</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+</Project>

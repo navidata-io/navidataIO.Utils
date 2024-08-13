@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <Compile Include="X:\navidata.io\Fabric-Items\utils\src\FabricTools.Utils.Json\LogMessages.cs" Link="LogMessages.cs" />
+  </ItemGroup>
+</Project>
