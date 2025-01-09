@@ -11,7 +11,7 @@ public abstract class HasTestFolder : IDisposable
     /// <summary>
     /// A temporary folder available for a single test run or test fixture.
     /// </summary>
-    protected readonly TempFolder TestFolder = new();
+    public TempFolder TestFolder { get; } = new();
 
     /// <summary>
     /// Deletes the test folder when the instance is disposed.
