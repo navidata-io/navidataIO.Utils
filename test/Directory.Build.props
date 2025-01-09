@@ -1,7 +1,7 @@
 ﻿<Project>
 
   <PropertyGroup>
-    <TargetFrameworks>net472;net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net472;net8.0;net9.0</TargetFrameworks>
     <RootNamespace>FabricTools.Utils.Tests</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
