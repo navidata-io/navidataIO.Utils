@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <PropertyGroup>
+    <PackageId>FabricTools.Utils</PackageId>
+    <Description>A description of your package</Description>
+    <PackageTags>tag1;tag2;tag3</PackageTags>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="X:\navidata.io\Fabric-Items\utils\src\FabricTools.Utils.Json\LogMessages.cs" Link="LogMessages.cs" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
 </Project>
