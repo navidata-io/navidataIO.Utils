@@ -43,7 +43,7 @@ public sealed class TempFolder : LoggingBase, IDisposable
         var tempPath = System.IO.Path.GetFullPath(path);
         Directory.CreateDirectory(tempPath);
 
-        LogMessages.CreatedTempFolder(Log, tempPath);
+        LogMessages.CreatedTempFolder(Logger, tempPath);
         return tempPath;
     }
 
@@ -60,11 +60,11 @@ public sealed class TempFolder : LoggingBase, IDisposable
         try
         {
             Directory.Delete(Path, recursive: true);
-            LogMessages.DeletedTempFolder(Log, Path);
+            LogMessages.DeletedTempFolder(Logger, Path);
         }
         catch (IOException ex)
         {
-            LogMessages.DeleteTempFolderFailed(Log, Path, ex);
+            LogMessages.DeleteTempFolderFailed(Logger, Path, ex);
         }
     }
 }

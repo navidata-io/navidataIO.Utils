@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace FabricTools.Utils;
+﻿namespace FabricTools.Utils;
 
 internal static partial class LogMessages
 {
