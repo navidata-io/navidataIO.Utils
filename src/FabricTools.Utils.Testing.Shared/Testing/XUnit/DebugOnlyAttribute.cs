@@ -4,7 +4,7 @@
 namespace Xunit;
 
 /// <summary>
-/// Skips the test unless a debugger is attached.
+/// A Xunit test that is skipped unless a debugger is attached.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 public class DebugOnlyAttribute : FactAttribute

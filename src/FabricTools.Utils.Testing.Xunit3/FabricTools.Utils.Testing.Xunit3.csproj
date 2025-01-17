@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net472</TargetFrameworks>
+    <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\FabricTools.Utils.Testing.Shared\Testing\**\*.cs" LinkBase="Testing" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FabricTools.Utils\FabricTools.Utils.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+</Project>

@@ -4,16 +4,33 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{636918FB-83C7-42EE-B913-F496E6810462}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FabricTools.Utils", "src\FabricTools.Utils\FabricTools.Utils.csproj", "{F41849C5-AE10-4894-A131-5A6B8FF2729B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FabricTools.Utils.Json", "src\FabricTools.Utils.Json\FabricTools.Utils.Json.csproj", "{751C052C-F1FB-4037-8B2E-CE77BB358420}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FabricTools.Utils.Testing", "src\FabricTools.Utils.Testing\FabricTools.Utils.Testing.csproj", "{0489DC07-5F9A-4902-B161-980DA4026A92}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{97A5E238-5560-4575-8F60-7C762AD66EBD}"
+	ProjectSection(SolutionItems) = preProject
+		test\Directory.Build.props = test\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FabricTools.Utils.Tests", "test\FabricTools.Utils.Tests\FabricTools.Utils.Tests.csproj", "{CF15E4B2-BB9D-49C7-91E1-EACED0C2212B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FabricTools.Utils.Testing.Xunit", "src\FabricTools.Utils.Testing.Xunit\FabricTools.Utils.Testing.Xunit.csproj", "{3893F0A7-E32A-E0B0-E8A9-D372F8532676}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FabricTools.Utils.Testing.Xunit3", "src\FabricTools.Utils.Testing.Xunit3\FabricTools.Utils.Testing.Xunit3.csproj", "{68953E78-79E4-F0E6-5EC1-FF8AF2C7C339}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FabricTools.Utils.Tests.Xunit3", "test\FabricTools.Utils.Tests.Xunit3\FabricTools.Utils.Tests.Xunit3.csproj", "{583205B7-8B91-FB0E-AA6A-53C9C7608FED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FabricTools.Utils.Testing.Xunit.Serilog", "src\FabricTools.Utils.Testing.Xunit.Serilog\FabricTools.Utils.Testing.Xunit.Serilog.csproj", "{9BA8E28A-EAB4-A86C-15D1-97F129AAB4A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,14 +46,26 @@ Global
 		{751C052C-F1FB-4037-8B2E-CE77BB358420}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{751C052C-F1FB-4037-8B2E-CE77BB358420}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{751C052C-F1FB-4037-8B2E-CE77BB358420}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0489DC07-5F9A-4902-B161-980DA4026A92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0489DC07-5F9A-4902-B161-980DA4026A92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0489DC07-5F9A-4902-B161-980DA4026A92}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0489DC07-5F9A-4902-B161-980DA4026A92}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CF15E4B2-BB9D-49C7-91E1-EACED0C2212B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF15E4B2-BB9D-49C7-91E1-EACED0C2212B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF15E4B2-BB9D-49C7-91E1-EACED0C2212B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF15E4B2-BB9D-49C7-91E1-EACED0C2212B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3893F0A7-E32A-E0B0-E8A9-D372F8532676}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3893F0A7-E32A-E0B0-E8A9-D372F8532676}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3893F0A7-E32A-E0B0-E8A9-D372F8532676}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3893F0A7-E32A-E0B0-E8A9-D372F8532676}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68953E78-79E4-F0E6-5EC1-FF8AF2C7C339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68953E78-79E4-F0E6-5EC1-FF8AF2C7C339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68953E78-79E4-F0E6-5EC1-FF8AF2C7C339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68953E78-79E4-F0E6-5EC1-FF8AF2C7C339}.Release|Any CPU.Build.0 = Release|Any CPU
+		{583205B7-8B91-FB0E-AA6A-53C9C7608FED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{583205B7-8B91-FB0E-AA6A-53C9C7608FED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{583205B7-8B91-FB0E-AA6A-53C9C7608FED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{583205B7-8B91-FB0E-AA6A-53C9C7608FED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BA8E28A-EAB4-A86C-15D1-97F129AAB4A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BA8E28A-EAB4-A86C-15D1-97F129AAB4A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BA8E28A-EAB4-A86C-15D1-97F129AAB4A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BA8E28A-EAB4-A86C-15D1-97F129AAB4A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,8 +73,11 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F41849C5-AE10-4894-A131-5A6B8FF2729B} = {636918FB-83C7-42EE-B913-F496E6810462}
 		{751C052C-F1FB-4037-8B2E-CE77BB358420} = {636918FB-83C7-42EE-B913-F496E6810462}
-		{0489DC07-5F9A-4902-B161-980DA4026A92} = {636918FB-83C7-42EE-B913-F496E6810462}
 		{CF15E4B2-BB9D-49C7-91E1-EACED0C2212B} = {97A5E238-5560-4575-8F60-7C762AD66EBD}
+		{3893F0A7-E32A-E0B0-E8A9-D372F8532676} = {636918FB-83C7-42EE-B913-F496E6810462}
+		{68953E78-79E4-F0E6-5EC1-FF8AF2C7C339} = {636918FB-83C7-42EE-B913-F496E6810462}
+		{583205B7-8B91-FB0E-AA6A-53C9C7608FED} = {97A5E238-5560-4575-8F60-7C762AD66EBD}
+		{9BA8E28A-EAB4-A86C-15D1-97F129AAB4A5} = {636918FB-83C7-42EE-B913-F496E6810462}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BB57DCD2-AB1C-494F-B304-977FB9950CEB}
