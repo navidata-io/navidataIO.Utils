@@ -20,4 +20,13 @@ public static class PathExtensions
         Path.GetExtension(path ?? throw new ArgumentNullException(nameof(path)))
             .ToLowerInvariant();
 
+
+    /// <summary>
+    /// Removes the last segment from the path.
+    /// </summary>
+    public static RelativeFilePath RemoveLast(this RelativeFilePath path) => path.Segments.Length switch
+    {
+        0 => path,
+        _ => new RelativeFilePath(path.Segments.Take(path.Segments.Length - 1), path.DirectorySeparator)
+    };
 }
