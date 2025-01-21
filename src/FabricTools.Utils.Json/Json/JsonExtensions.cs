@@ -1,6 +1,5 @@
 ﻿// Copyright (c) 2024 pbi-tools Ltd, London
 
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -121,7 +120,7 @@ public static class JsonExtensions
         try
         {
             result = JsonConvert.DeserializeObject<T>(json);
-            return (result != default);
+            return result != default;
         }
         catch
         {

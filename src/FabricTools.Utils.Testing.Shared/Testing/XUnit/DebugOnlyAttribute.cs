@@ -16,7 +16,7 @@ public class DebugOnlyAttribute : FactAttribute
     {
         if (!Debugger.IsAttached)
         {
-            Skip = "Only running in interactive mode.";
+            Skip = "Only runs if a debugger is attached.";
         }
     }
 }
