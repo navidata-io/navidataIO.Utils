@@ -8,7 +8,7 @@
     <ProjectReference Include="..\FabricTools.Utils\FabricTools.Utils.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.extensibility.execution" />
     <PackageReference Include="Serilog" />
   </ItemGroup>
   <ItemGroup>
