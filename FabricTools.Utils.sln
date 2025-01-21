@@ -26,6 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Packages.props = Directory.Packages.props
+		GitVersion.yml = GitVersion.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FabricTools.Utils.Tests.Xunit3", "test\FabricTools.Utils.Tests.Xunit3\FabricTools.Utils.Tests.Xunit3.csproj", "{583205B7-8B91-FB0E-AA6A-53C9C7608FED}"

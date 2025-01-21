@@ -13,18 +13,27 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.0.0</Version>
     <Authors>Mathias Thierbach</Authors>
     <Company>navidata.io Corp</Company>
     <Product>FabricTools</Product>
     <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/FabricTools/FabricTools.Utils</RepositoryUrl>
     <PackageProjectUrl>https://github.com/FabricTools/FabricTools.Utils</PackageProjectUrl>
-    <PackageIcon>icon.png</PackageIcon>
+    <PackageIcon>FabricTools.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <IncludeSymbols>true</IncludeSymbols>
     <IncludeSource>true</IncludeSource>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\FabricTools.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GitVersion.MsBuild">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
 
   <ItemGroup>
     <Using Include="Microsoft.Extensions.Logging" />
