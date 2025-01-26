@@ -1,10 +1,9 @@
 ﻿<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
   <PropertyGroup>
     <RootNamespace>FabricTools.Utils</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -13,14 +12,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Authors>Mathias Thierbach</Authors>
-    <Company>navidata.io Corp</Company>
-    <Product>FabricTools</Product>
-    <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/FabricTools/FabricTools.Utils</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/FabricTools/FabricTools.Utils</PackageProjectUrl>
+    <IsPackable>true</IsPackable>
     <PackageIcon>FabricTools.png</PackageIcon>
-    <RepositoryType>git</RepositoryType>
     <IncludeSymbols>true</IncludeSymbols>
     <IncludeSource>true</IncludeSource>
   </PropertyGroup>
