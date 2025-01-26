@@ -58,11 +58,11 @@ public class AssemblyResource
     }
 
     /// <summary>
-    /// Asynchronously extracts the embedded resource to the specified folder.
+    /// Asynchronously extracts the embedded resource to the specified folder and returns to full path.
     /// The full file path is determined by combining the <paramref name="folderPath"/> with the resource name,
     /// after applying the <see cref="AssemblyResources.PathConverter"/> function to the name.
     /// </summary>
-    public async Task ExtractToAsync(string folderPath, bool overwrite = true)
+    public async Task<string> ExtractToAsync(string folderPath, bool overwrite = true)
     {
         var targetFile = new FileInfo(Path.Combine(folderPath, _pathConverter(Name)));
         if (targetFile.Exists && !overwrite)
@@ -73,6 +73,8 @@ public class AssemblyResource
         using var stream = GetStream();
         using var fileStream = targetFile.OpenWrite();
         await stream.CopyToAsync(fileStream);
+
+        return targetFile.FullName;
     }
 
 }
@@ -102,6 +104,7 @@ public class AssemblyResources : IEnumerable<AssemblyResource>
 
     /// <summary>
     /// Gets or sets a function that converts the resource name into a (relative) file path.
+    /// Only needed when extracting resources to the file system via <see cref="AssemblyResource.ExtractToAsync"/>.
     /// </summary>
     public Func<string, string> PathConverter { get; set; } = p => p;
 
