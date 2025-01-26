@@ -10,31 +10,48 @@ namespace FabricTools.Utils;
 public static class StringExtensions
 {
     /// <summary>
-    /// Capitalizes the provided string.
+    /// Capitalizes all words and removes whitespace from the string.
     /// </summary>
     public static string? ToPascalCase(this string? s)
     {
         if (string.IsNullOrEmpty(s)) return s;
 
-        var sb = new StringBuilder(s)
-        {
-            [0] = char.ToUpper(s![0])
-        };
-        return sb.ToString();
+        return (s!.Split([' '], StringSplitOptions.RemoveEmptyEntries) switch
+            {
+                { Length: 1 } words => MakeUpperCase(words[0]),
+                var words => words.Aggregate(
+                    new StringBuilder(),
+                    (sb, word) => sb.Append(MakeUpperCase(word)))
+            })
+            .ToString();
     }
 
+    private static StringBuilder MakeLowerCase(string s) => new(s)
+    {
+        [0] = char.ToLower(s![0])
+    };
+
+    private static StringBuilder MakeUpperCase(string s) => new(s)
+    {
+        [0] = char.ToUpper(s![0])
+    };
+
     /// <summary>
-    /// Converts the first character of the provided string to lowercase.
+    /// Converts the first character of the provided string to lower-case, removes whitespace and capitalizes
+    /// all subsequent words.
     /// </summary>
     public static string? ToCamelCase(this string? s)
     {
         if (string.IsNullOrEmpty(s)) return s;
 
-        var sb = new StringBuilder(s)
-        {
-            [0] = char.ToLower(s![0])
-        };
-        return sb.ToString();
+        return (s!.Split([' '], StringSplitOptions.RemoveEmptyEntries) switch
+            {
+                { Length: 1 } words => MakeLowerCase(words[0]),
+                var words => words.Skip(1).Aggregate(
+                    MakeLowerCase(words[0]),
+                    (sb,word) => sb.Append(MakeUpperCase(word)))
+            })
+            .ToString();
     }
 
     /// <summary>
