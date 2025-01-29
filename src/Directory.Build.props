@@ -13,13 +13,13 @@
 
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <PackageIcon>FabricTools.png</PackageIcon>
+    <PackageIcon>navidataIO.png</PackageIcon>
     <IncludeSymbols>true</IncludeSymbols>
     <IncludeSource>true</IncludeSource>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\FabricTools.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\navidataIO.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
