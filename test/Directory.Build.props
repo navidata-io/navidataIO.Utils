@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net472;net8.0;net9.0</TargetFrameworks>
-    <RootNamespace>FabricTools.Utils.Tests</RootNamespace>
+    <RootNamespace>navidataIO.Utils.Tests</RootNamespace>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>

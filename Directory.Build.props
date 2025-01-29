@@ -8,13 +8,13 @@
 
   <PropertyGroup>
     <PackageVersion>99.99.99</PackageVersion> <!-- To be replaced by the CI pipeline -->
-    <Product>FabricTools</Product>
+    <Product>navidata.io Utils</Product>
     <Authors>Mathias Thierbach</Authors>
     <Company>navidata.io</Company>
     <Copyright>Copyright © navidata.io Corp 2024. All rights reserved.</Copyright>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/FabricTools/FabricTools.Utils.git</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/FabricTools</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/navidata-io/navidataIO.Utils.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/navidata-io/navidataIO.Utils</PackageProjectUrl>
     <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
