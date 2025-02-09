@@ -1,6 +1,9 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace System.IO;
 
+/// <summary>
+/// Provides extension methods for <see cref="DirectoryInfo"/>.
+/// </summary>
 public static class DirectoryExtensions
 {
     /// <summary>
@@ -8,6 +11,7 @@ public static class DirectoryExtensions
     /// </summary>
     public static void Recreate(this DirectoryInfo directoryInfo)
     {
+        if (directoryInfo is null) throw new ArgumentNullException(nameof(directoryInfo));
         if (directoryInfo.Exists) directoryInfo.Delete(recursive: true);
         directoryInfo.Create();
     }
@@ -17,6 +21,9 @@ public static class DirectoryExtensions
     /// </summary>
     public static void Clean(this DirectoryInfo directoryInfo)
     {
+        if (directoryInfo is null) throw new ArgumentNullException(nameof(directoryInfo));
+        if (!directoryInfo.Exists) return;
+
         // Delete all files
         foreach (var file in directoryInfo.GetFiles())
         {
@@ -31,10 +38,12 @@ public static class DirectoryExtensions
     }
 
     /// <summary>
-    /// Ensures the directory exists and cleans it if it contains and files or subfolders.
+    /// Ensures the directory exists and deletes any files or sub-folders inside the directory.
     /// </summary>
     public static void EnsureEmpty(this DirectoryInfo directoryInfo)
     {
+        if (directoryInfo is null) throw new ArgumentNullException(nameof(directoryInfo));
+
         if (directoryInfo.Exists)
         {
             directoryInfo.Clean();
