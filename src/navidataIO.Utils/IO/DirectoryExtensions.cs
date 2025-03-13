@@ -19,7 +19,7 @@ public static class DirectoryExtensions
     /// <summary>
     /// Deletes all files and subdirectories in the specified directory.
     /// </summary>
-    public static void Clean(this DirectoryInfo directoryInfo)
+    public static void Clean(this DirectoryInfo directoryInfo, bool keepDotFolders = false, bool keepDotFiles = false)
     {
         if (directoryInfo is null) throw new ArgumentNullException(nameof(directoryInfo));
         if (!directoryInfo.Exists) return;
@@ -27,12 +27,14 @@ public static class DirectoryExtensions
         // Delete all files
         foreach (var file in directoryInfo.GetFiles())
         {
+            if (keepDotFiles && file.Name.StartsWith(".")) continue;
             file.Delete();
         }
 
         // Delete all subdirectories
         foreach (var subDirectory in directoryInfo.GetDirectories())
         {
+            if (keepDotFolders && subDirectory.Name.StartsWith(".")) continue;
             subDirectory.Delete(true);
         }
     }
@@ -40,13 +42,13 @@ public static class DirectoryExtensions
     /// <summary>
     /// Ensures the directory exists and deletes any files or sub-folders inside the directory.
     /// </summary>
-    public static void EnsureEmpty(this DirectoryInfo directoryInfo)
+    public static void EnsureEmpty(this DirectoryInfo directoryInfo, bool keepDotFolders = false, bool keepDotFiles = false)
     {
         if (directoryInfo is null) throw new ArgumentNullException(nameof(directoryInfo));
 
         if (directoryInfo.Exists)
         {
-            directoryInfo.Clean();
+            directoryInfo.Clean(keepDotFolders, keepDotFiles);
         }
         else
         {
