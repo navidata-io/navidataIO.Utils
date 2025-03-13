@@ -1,5 +1,7 @@
 ﻿// Copyright (c) 2024 pbi-tools Ltd, London
 
+using System.Text;
+
 namespace navidataIO.Utils.IO;
 
 /// <summary>
@@ -36,7 +38,28 @@ public static class PathExtensions
     public static string EnsureEndsInDirectorySeparator(this string path, char? customDirectorySeparator = default) => path switch
     {
         null => throw new ArgumentNullException(nameof(path)),
-        var p when p.EndsWith("/") || p.EndsWith("\\") => p,
-        var p => p + (customDirectorySeparator ?? Path.DirectorySeparatorChar)
+        _ when path.EndsWith("/") || path.EndsWith("\\") => path,
+        _ => path + (customDirectorySeparator ?? Path.DirectorySeparatorChar)
     };
+
+    private static readonly Dictionary<char, string> FilenameCharReplace = "\"<>|:*?/\\".ToCharArray()
+        .ToDictionary(c => c, c => $"%{((int)c):X}");
+    // Note - This can be reversed via WebUtility.UrlDecode()
+
+    public static string? SanitizeFilename(this string? name)
+    {
+        if (name == null) return null;
+
+        var sb = new StringBuilder();
+        foreach (var c in name)
+        {
+            if (FilenameCharReplace.TryGetValue(c, out var s))
+                sb.Append(s);
+            else
+                sb.Append(c);
+        }
+        return sb.ToString();
+    }
+
+    public static string UnsanitizeFilename(this string name) => System.Net.WebUtility.UrlDecode(name);
 }
