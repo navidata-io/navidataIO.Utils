@@ -24,12 +24,6 @@
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
-  <ItemGroup Condition="1==0">
-    <PackageReference Include="GitVersion.MsBuild">
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>
-
   <ItemGroup>
     <Using Include="Microsoft.Extensions.Logging" />
   </ItemGroup>
