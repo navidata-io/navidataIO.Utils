@@ -46,6 +46,10 @@ public static class PathExtensions
         .ToDictionary(c => c, c => $"%{((int)c):X}");
     // Note - This can be reversed via WebUtility.UrlDecode()
 
+    /// <summary>
+    /// Sanitizes the specified string to be used as a filename.
+    /// Any invalid characters are replaced with their URL-encoded equivalent.
+    /// </summary>
     public static string? SanitizeFilename(this string? name)
     {
         if (name == null) return null;
@@ -61,5 +65,8 @@ public static class PathExtensions
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Unsanitizes the specified filename by url decoding the string.
+    /// </summary>
     public static string UnsanitizeFilename(this string name) => System.Net.WebUtility.UrlDecode(name);
 }

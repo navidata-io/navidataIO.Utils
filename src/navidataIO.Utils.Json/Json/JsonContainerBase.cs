@@ -8,6 +8,9 @@ namespace navidataIO.Utils.Json;
 /// </summary>
 public abstract class JObjectBase
 {
+    /// <summary>
+    /// Gets or sets the additional Json properties that are not explicitly defined in the class.
+    /// </summary>
     [JsonExtensionData]
     protected IDictionary<string, JToken?>? AdditionalProperties;
 }

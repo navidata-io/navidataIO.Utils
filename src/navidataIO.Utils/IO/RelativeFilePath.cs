@@ -95,6 +95,11 @@ public readonly struct RelativeFilePath : IEquatable<RelativeFilePath>
     public static RelativeFilePath Create(Uri fullPath, Uri basePath, char? directorySeparator = null)
         => new(basePath.MakeRelativeUri(fullPath).OriginalString.Split('/', '\\'), directorySeparator);
 
+    /// <summary>
+    /// Creates a new instance of <see cref="RelativeFilePath"/> from the full path provided,
+    /// relative to the given base path.
+    /// Note that the base path must end with a directory separator for the last segment to be considered part of the base path.
+    /// </summary>
     public static RelativeFilePath Create(string fullPath, string basePath, char? directorySeparator = null)
         => new(new Uri(basePath).MakeRelativeUri(new Uri(fullPath)).OriginalString.Split('/', '\\'), directorySeparator);
 
