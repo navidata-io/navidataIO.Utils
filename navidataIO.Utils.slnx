@@ -1,0 +1,23 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="GitVersion.yml" />
+    <File Path="navidataIO.png" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <File Path="src/Directory.Build.props" />
+    <Project Path="src/navidataIO.Utils.Json/navidataIO.Utils.Json.csproj" />
+    <Project Path="src/navidataIO.Utils.Testing.Xunit.Serilog/navidataIO.Utils.Testing.Xunit.Serilog.csproj" />
+    <Project Path="src/navidataIO.Utils.Testing.Xunit/navidataIO.Utils.Testing.Xunit.csproj" />
+    <Project Path="src/navidataIO.Utils.Testing.Xunit3/navidataIO.Utils.Testing.Xunit3.csproj" />
+    <Project Path="src/navidataIO.Utils/navidataIO.Utils.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <File Path="test/Directory.Build.props" />
+    <Project Path="test/navidataIO.Utils.Tests.Xunit3/navidataIO.Utils.Tests.Xunit3.csproj" />
+    <Project Path="test/navidataIO.Utils.Tests/navidataIO.Utils.Tests.csproj" />
+  </Folder>
+</Solution>
