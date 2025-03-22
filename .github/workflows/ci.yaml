@@ -34,7 +34,7 @@ jobs:
     - name: dotnet restore
       run: dotnet restore
     - name: dotnet build & pack
-      run: dotnet build -c Release -p:PackageVersion=${{env.GitVersion_SemVer}} --output ./artifacts --no-restore
+      run: dotnet build -c Release -p:PackageVersion=${{env.GitVersion_SemVer}} --no-restore
     - name: dotnet test
       run: dotnet test -c Release --no-restore --verbosity normal
     #
@@ -45,7 +45,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: nuget-packages
-        path: ./artifacts/*nupkg
+        path: ./out/*nupkg
     - name: Job Summary
       run: |
         echo "# Build/Pack/Test: ${{ env.GitVersion_SemVer }} from branch: ${{ env.GitVersion_BranchName }}" >> $GITHUB_STEP_SUMMARY
