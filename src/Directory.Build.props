@@ -8,7 +8,7 @@
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild Condition=" '$(GeneratePackageOnBuild)' == '' ">true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
 
     <PackageIcon>navidataIO.png</PackageIcon>
