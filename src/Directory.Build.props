@@ -9,20 +9,22 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <IsPackable>true</IsPackable>
+
     <PackageIcon>navidataIO.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile> <!-- https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#packagereadmefile -->
+
+    <!-- Create symbols: https://learn.microsoft.com/nuget/create-packages/symbol-packages-snupkg -->
     <IncludeSymbols>true</IncludeSymbols>
-    <IncludeSource>true</IncludeSource>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\..\navidataIO.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="1==0">
     <PackageReference Include="GitVersion.MsBuild">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
