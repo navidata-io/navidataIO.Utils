@@ -1,0 +1,107 @@
+name: CI Workflow
+run-name: '${{ github.workflow }} [${{ github.event_name }}:${{ github.ref_name }}]'
+
+on:
+  push:
+    tags:
+      - '*'       # Create nuget.org releases from tags only (must verify source branch in job)
+  pull_request:
+    branches:     # pull requests into the main branch publish to GitHub packages, all others merely publish build artifacts
+      - main
+      - release/*
+      - Release/*
+  workflow_dispatch:
+
+jobs:
+  build-pack-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9
+    - name: dotnet info
+      run: dotnet --info
+    - name: dotnet tool restore
+      run: dotnet tool restore
+    - name: GitVersion
+      id: gitversion
+      run: dotnet tool run dotnet-gitversion -- /output buildserver /updateassemblyinfo
+    - name: dotnet restore
+      run: dotnet restore
+    - name: dotnet build & pack
+      run: dotnet build -c Release -p:PackageVersion=${{env.GitVersion_SemVer}} --output ./artifacts --no-restore
+    - name: dotnet test
+      run: dotnet test -c Release --no-restore --verbosity normal
+    #
+    # TODO - [Sign packages]
+    #
+    - name: Upload Artifact
+      id: upload-nupkg
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages
+        path: ./artifacts/*nupkg
+    - name: Job Summary
+      run: |
+        echo "# Build/Pack/Test: ${{ env.GitVersion_SemVer }} from branch: ${{ env.GitVersion_BranchName }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "NUPKG Artifact Url: ${{ steps.upload-nupkg.outputs.artifact-url }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+
+    outputs:
+      PKG_VERSION: ${{ env.GitVersion_SemVer }}
+      BRANCH_NAME: ${{ env.GitVersion_BranchName }}
+
+  publish-github-packages: # Push to GitHub Packages if inside pull-request targeting main
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+    needs: build-pack-test
+    permissions:
+      packages: write
+      # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/controlling-permissions-for-github_token
+    steps:
+    - name: Download NUPKG
+      uses: actions/download-artifact@v4
+      with:
+        name: nuget-packages
+        path: ./artifacts
+    - name: Publish to GitHub Packages
+      run: |
+        dotnet nuget push \
+          ./artifacts/*nupkg \
+          --api-key ${{ secrets.GITHUB_TOKEN }} \
+          --source https://nuget.pkg.github.com/${{ github.repository_owner }}
+    - name: Job Summary
+      run: |
+        echo "## Published $VERSION to GitHub Packages" >> $GITHUB_STEP_SUMMARY
+      env:
+        VERSION: ${{ needs.build-pack-test.outputs.PKG_VERSION }}
+
+  publish-nuget-org: # Sign nupkg & Push to nuget.org if tag was created on main branch
+    if: github.event_name == 'push' && github.ref_type == 'tag' && github.event.base_ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: build-pack-test
+    permissions:
+      packages: write
+    steps:
+      - name: Download NUPKG
+        uses: actions/download-artifact@v4
+        with:
+          name: nuget-packages
+          path: ./artifacts
+      - name: Publish to nuget.org
+        run: |
+          dotnet nuget push \
+            ./artifacts/*nupkg \
+            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --source https://nuget.pkg.github.com/${{ github.repository_owner }}
+      - name: Job Summary
+        run: |
+          echo "## Published $VERSION to GitHub Packages" >> $GITHUB_STEP_SUMMARY
+        env:
+          VERSION: ${{ needs.build-pack-test.outputs.PKG_VERSION }}
