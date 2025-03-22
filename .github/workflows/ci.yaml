@@ -37,8 +37,8 @@ jobs:
       run: dotnet build -c Release -p:PackageVersion=${{env.GitVersion_SemVer}} --no-restore
     - name: dotnet test
       run: |
-        dotnet test -c Release -t net8.0 --no-restore --verbosity normal
-        dotnet test -c Release -t net9.0 --no-restore --verbosity normal
+        dotnet test -c Release -f net8.0 --no-restore --verbosity normal
+        dotnet test -c Release -f net9.0 --no-restore --verbosity normal
     #
     # TODO - [Sign packages]
     #
