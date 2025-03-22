@@ -1,6 +1,4 @@
-﻿// Copyright (c) 2024 pbi-tools Ltd, London
-
-using Microsoft.Extensions.Logging.Abstractions;
+﻿using Microsoft.Extensions.Logging.Abstractions;
 
 namespace navidataIO.Utils;
 

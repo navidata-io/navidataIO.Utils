@@ -1,6 +1,4 @@
-﻿// Copyright (c) 2024 pbi-tools Ltd, London
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace navidataIO.Utils.Json;

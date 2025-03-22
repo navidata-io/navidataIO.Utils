@@ -1,6 +1,4 @@
-﻿// Copyright (c) 2024 pbi-tools Ltd, London
-
-using System.Collections;
+﻿using System.Collections;
 using System.Reflection;
 using System.Text;
 

@@ -1,6 +1,4 @@
-﻿// Copyright (c) 2024 pbi-tools Ltd
-
-namespace navidataIO.Utils.IO;
+﻿namespace navidataIO.Utils.IO;
 
 /// <summary>
 /// Represents an immutable relative file path and provides convenience methods for accessing path segments and combining paths.

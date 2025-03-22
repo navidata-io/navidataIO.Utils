@@ -1,8 +1,4 @@
-﻿// Copyright (c) 2024 pbi-tools Ltd, London
-
-using Microsoft.Extensions.Logging;
-
-namespace navidataIO.Utils;
+﻿namespace navidataIO.Utils;
 
 /// <summary>
 /// Represents a dynamically generated temporary folder with an explicitly controlled lifetime.

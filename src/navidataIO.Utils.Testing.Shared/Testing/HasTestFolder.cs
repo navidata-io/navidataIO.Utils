@@ -1,6 +1,4 @@
-﻿// Copyright (c) 2024 pbi-tools Ltd, London
-
-namespace navidataIO.Utils.Testing;
+﻿namespace navidataIO.Utils.Testing;
 
 /// <summary>
 /// A component with a dynamically-generated test folder.

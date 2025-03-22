@@ -1,6 +1,4 @@
-﻿// Copyright (c) 2024 pbi-tools Ltd, London
-
-using System.Text;
+﻿using System.Text;
 
 namespace navidataIO.Utils;
 
