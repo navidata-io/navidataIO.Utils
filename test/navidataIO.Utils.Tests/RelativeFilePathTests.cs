@@ -20,4 +20,14 @@ public class RelativeFilePathTests
         Assert.NotEqual(relativePath, default(RelativeFilePath));
         Assert.Equal(expectedSegmentsCount, relativePath.Segments.Length);
     }
+
+    [Theory]
+    [InlineData(@"C:\root\with spaces\foo", @"C:\root\with spaces\", '/', "foo")]
+    [InlineData(@"C:\root\with spaces\foo\bar", @"C:\root\with spaces\", '/', "foo/bar")]
+    [InlineData(@"C:\root\with spaces\foo\bar", @"C:\root\with spaces", '/', "with spaces/foo/bar")]
+    public void Create_from_string(string fullPath, string basePath, char separator, string expectedResult)
+    {
+        var relPath = RelativeFilePath.Create(fullPath, basePath, separator);
+        Assert.Equal(expectedResult, relPath);
+    }
 }

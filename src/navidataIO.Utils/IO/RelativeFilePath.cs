@@ -99,7 +99,7 @@ public readonly struct RelativeFilePath : IEquatable<RelativeFilePath>
     /// Note that the base path must end with a directory separator for the last segment to be considered part of the base path.
     /// </summary>
     public static RelativeFilePath Create(string fullPath, string basePath, char? directorySeparator = null)
-        => new(new Uri(basePath).MakeRelativeUri(new Uri(fullPath)).OriginalString.Split('/', '\\'), directorySeparator);
+        => new(new Uri(basePath).MakeRelativeUri(new Uri(fullPath)).OriginalString.Split('/', '\\').Select(System.Net.WebUtility.UrlDecode), directorySeparator);
 
     #region IEquatable<RelativeFilePath> implementation
 
