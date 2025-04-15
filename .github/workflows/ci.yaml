@@ -93,7 +93,7 @@ jobs:
         AKV_CLIENT_ID: ${{ secrets.PBITOOLS_KVI }}
         AKV_CLIENT_SECRET: ${{ secrets.PBITOOLS_KVS }}
       run: |
-          dir .\packages\*nupkg /b > %RUNNER_TEMP%\nupkg-files.txt
+          dir /s /b .\packages\*nupkg > %RUNNER_TEMP%\nupkg-files.txt
           azuresigntool ^
             sign ^
             -kvu %AKV_URL% ^
