@@ -20,28 +20,32 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+    - name: 'Cache: ~/.nuget/packages'
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.nuget/packages
+        key: nuget-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
+        restore-keys: |
+          nuget-
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9
     - name: dotnet info
       run: dotnet --info
-    - name: dotnet tool restore
-      run: dotnet tool restore
-    - name: GitVersion
-      id: gitversion
-      run: dotnet tool run dotnet-gitversion -- /output buildserver /updateassemblyinfo
     - name: dotnet restore
       run: dotnet restore
     - name: dotnet build & pack
-      run: dotnet build -c Release -p:PackageVersion=${{env.GitVersion_SemVer}} --no-restore
+      run: |
+        dotnet build \
+          -c Release \
+          -p:PackageVersion=${{env.GitVersion_SemVer}} \
+          --no-restore
     - name: dotnet test
       run: |
         dotnet test -c Release -f net8.0 --no-restore --verbosity normal -p:GeneratePackageOnBuild=false
         dotnet test -c Release -f net9.0 --no-restore --verbosity normal -p:GeneratePackageOnBuild=false
-    #
-    # TODO - [Sign packages]
-    #
+    - name: List output files
+      run: ls -la ./out
     - name: Upload Artifact
       id: upload-nupkg
       uses: actions/upload-artifact@v4
@@ -59,10 +63,62 @@ jobs:
       PKG_VERSION: ${{ env.GitVersion_SemVer }}
       BRANCH_NAME: ${{ env.GitVersion_BranchName }}
 
+  sign-packages:
+    if: >
+      (github.event_name == 'pull_request' && 
+       github.event.pull_request.base.ref == 'main') || 
+      (github.event_name == 'push' && 
+       github.ref_type == 'tag' && 
+       github.event.base_ref == 'refs/heads/main')
+    runs-on: windows-latest
+    needs: build-pack-test
+    steps:
+    - name: Download NUPKG
+      uses: actions/download-artifact@v4
+      with:
+        name: nuget-packages
+        path: ./packages
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8
+    - name: dotnet tool restore
+      run: dotnet tool restore
+    - name: Sign packages
+      env:
+        AKV_URL: ${{ secrets.PBITOOLS_KVU }}
+        AKV_CERT_NAME: ${{ secrets.PBITOOLS_KVC }}
+        AKV_TENANT: ${{ secrets.PBITOOLS_KVT }}
+        AKV_CLIENT_ID: ${{ secrets.PBITOOLS_KVI }}
+        AKV_CLIENT_SECRET: ${{ secrets.PBITOOLS_KVS }}
+      run: |
+          dir .\packages\*nupkg /b > $RUNNER_TEMP/nupkg-files.txt
+          dotnet tool azuresigntool \
+            sign \
+            -kvu $AKV_URL \
+            -kvt $AKV_TENANT \
+            -kvi $AKV_CLIENT_ID \
+            -kvs $AKV_CLIENT_SECRET \
+            -kvc $AKV_CERT_NAME \
+            -du https://github.com/navidata-io/navidataIO.Utils
+            -tr http://timestamp.digicert.com
+            -td sha384
+            -fd sha384
+            -ifl $RUNNER_TEMP/nupkg-files.txt
+            -v
+    - name: Upload Artifact
+      id: upload-nupkg
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages-signed
+        path: ./packages
+    outputs:
+      PKG_VERSION: ${{ needs.build-pack-test.outputs.PKG_VERSION }}
+
   publish-github-packages: # Push to GitHub Packages if inside pull-request targeting main
     if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
-    needs: build-pack-test
+    needs: sign-packages
     permissions:
       packages: write
       # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/controlling-permissions-for-github_token
@@ -70,7 +126,7 @@ jobs:
     - name: Download NUPKG
       uses: actions/download-artifact@v4
       with:
-        name: nuget-packages
+        name: nuget-packages-signed
         path: ./artifacts
     - name: Publish to GitHub Packages
       run: |
@@ -82,28 +138,30 @@ jobs:
       run: |
         echo "## Published $VERSION to GitHub Packages" >> $GITHUB_STEP_SUMMARY
       env:
-        VERSION: ${{ needs.build-pack-test.outputs.PKG_VERSION }}
+        VERSION: ${{ needs.sign-packages.outputs.PKG_VERSION }}
 
   publish-nuget-org: # Sign nupkg & Push to nuget.org if tag was created on main branch
     if: github.event_name == 'push' && github.ref_type == 'tag' && github.event.base_ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    needs: build-pack-test
+    needs: sign-packages
     permissions:
       packages: write
     steps:
       - name: Download NUPKG
         uses: actions/download-artifact@v4
         with:
-          name: nuget-packages
+          name: nuget-packages-signed
           path: ./artifacts
       - name: Publish to nuget.org
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_ORG_API_KEY_navidataIO }}
         run: |
           dotnet nuget push \
             ./artifacts/*nupkg \
-            --api-key ${{ secrets.GITHUB_TOKEN }} \
-            --source https://nuget.pkg.github.com/${{ github.repository_owner }}
+            --api-key ${{env.NUGET_API_KEY}} \
+            --source https://api.nuget.org/v3/index.json
       - name: Job Summary
         run: |
-          echo "## Published $VERSION to GitHub Packages" >> $GITHUB_STEP_SUMMARY
+          echo "## Published $VERSION to nuget.org" >> $GITHUB_STEP_SUMMARY
         env:
-          VERSION: ${{ needs.build-pack-test.outputs.PKG_VERSION }}
+          VERSION: ${{ needs.sign-packages.outputs.PKG_VERSION }}
