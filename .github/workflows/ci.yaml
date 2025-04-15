@@ -85,6 +85,7 @@ jobs:
     - name: dotnet tool restore
       run: dotnet tool restore
     - name: Sign packages
+      shell: cmd
       env:
         AKV_URL: ${{ secrets.PBITOOLS_KVU }}
         AKV_CERT_NAME: ${{ secrets.PBITOOLS_KVC }}
@@ -92,19 +93,19 @@ jobs:
         AKV_CLIENT_ID: ${{ secrets.PBITOOLS_KVI }}
         AKV_CLIENT_SECRET: ${{ secrets.PBITOOLS_KVS }}
       run: |
-          dir .\packages\*nupkg /b > $RUNNER_TEMP/nupkg-files.txt
-          dotnet tool azuresigntool \
-            sign \
-            -kvu $AKV_URL \
-            -kvt $AKV_TENANT \
-            -kvi $AKV_CLIENT_ID \
-            -kvs $AKV_CLIENT_SECRET \
-            -kvc $AKV_CERT_NAME \
-            -du https://github.com/navidata-io/navidataIO.Utils
-            -tr http://timestamp.digicert.com
-            -td sha384
-            -fd sha384
-            -ifl $RUNNER_TEMP/nupkg-files.txt
+          dir .\packages\*nupkg /b > %RUNNER_TEMP%\nupkg-files.txt
+          dotnet tool azuresigntool ^
+            sign ^
+            -kvu %AKV_URL% ^
+            -kvt %AKV_TENANT% ^
+            -kvi %AKV_CLIENT_ID% ^
+            -kvs %AKV_CLIENT_SECRET% ^
+            -kvc %AKV_CERT_NAME% ^
+            -du https://github.com/navidata-io/navidataIO.Utils ^
+            -tr http://timestamp.digicert.com ^
+            -td sha384 ^
+            -fd sha384 ^
+            -ifl %RUNNER_TEMP%\nupkg-files.txt ^
             -v
     - name: Upload Artifact
       id: upload-nupkg
