@@ -17,6 +17,9 @@
     <!-- Create symbols: https://learn.microsoft.com/nuget/create-packages/symbol-packages-snupkg -->
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>

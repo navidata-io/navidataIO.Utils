@@ -17,4 +17,8 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.2" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
   </ItemGroup>
+  <ItemGroup>
+    <GlobalPackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.25" />
+    <GlobalPackageReference Include="GitVersion.MsBuild" Version="6.2.0" />
+  </ItemGroup>
 </Project>
