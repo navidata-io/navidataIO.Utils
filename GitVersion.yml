@@ -3,3 +3,6 @@ branches:
   pull-request:
     label: pr
     increment: None
+  main:
+    label: preview
+    increment: None
