@@ -18,8 +18,7 @@ env:
         && 'nuget.org' 
         || ((github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main') 
             && 'github' 
-            || 'dev')
-    }}
+            || 'dev') }}
 
 jobs:
   build-pack-test:
