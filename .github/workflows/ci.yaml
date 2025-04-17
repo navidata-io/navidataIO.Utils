@@ -129,7 +129,7 @@ jobs:
           -o ./signed ^
           *.snupkg
 
-    - name: List downloaded files
+    - name: List signed packages
       run: ls -R ./packages/signed
     - name: Upload Artifact
       id: upload-nupkg
