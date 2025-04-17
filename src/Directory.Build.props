@@ -10,15 +10,21 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild Condition=" '$(GeneratePackageOnBuild)' == '' ">true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
-
     <PackageIcon>navidataIO.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile> <!-- https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#packagereadmefile -->
+  </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(ENVIRONMENT)' == 'nuget.org' ">
     <!-- Create symbols: https://learn.microsoft.com/nuget/create-packages/symbol-packages-snupkg -->
-    <IncludeSymbols>true</IncludeSymbols>
+    <IncludeSymbols>true</IncludeSymbols>             <!-- Whether or not symbols package is produced -->
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    
-    <DebugType>portable</DebugType>
+    <DebugType>portable</DebugType>                   <!-- portable|embedded|pdbonly|full|none; pdbonly|full is legacy -->
+    <DebugSymbols>true</DebugSymbols>                 <!-- Whether or not the compiler emits .pdb -->
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(ENVIRONMENT)' == 'github' ">
+    <IncludeSymbols>false</IncludeSymbols>
+    <DebugType>embedded</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 

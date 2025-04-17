@@ -12,6 +12,15 @@ on:
       - Release/*
   workflow_dispatch:
 
+env:
+  ENVIRONMENT: >
+    ${{ (github.event_name == 'push' && github.ref_type == 'tag' && github.event.base_ref == 'refs/heads/main') 
+        && 'nuget.org' 
+        || ((github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main') 
+            && 'github' 
+            || 'dev')
+    }}
+
 jobs:
   build-pack-test:
     runs-on: ubuntu-latest
@@ -39,6 +48,7 @@ jobs:
         dotnet build \
           -c Release \
           -p:PackageVersion=${{env.GitVersion_SemVer}} \
+          -p:ENVIRONMENT=${{env.ENVIRONMENT}} \
           --no-restore
     - name: dotnet test
       run: |
@@ -139,6 +149,8 @@ jobs:
       with:
         name: nuget-packages-signed
         path: ./artifacts
+    - name: List packages
+      run: ls -la ./artifacts
     - name: Publish to GitHub Packages
       run: |
         dotnet nuget push \
@@ -163,6 +175,8 @@ jobs:
         with:
           name: nuget-packages-signed
           path: ./artifacts
+      - name: List packages
+        run: ls -la ./artifacts
       - name: Publish to nuget.org
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_ORG_API_KEY_navidataIO }}
