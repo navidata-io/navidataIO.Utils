@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=https://gitversion.net/schemas/6.1/GitVersion.configuration.json
+branches:
+  pull-request:
+    label: pr
+    increment: None
+  main:
+    label: preview
+    increment: None

@@ -1,0 +1,24 @@
+
+on:
+  workflow_dispatch:
+    inputs:
+      package-name:
+        description: 'The package name to delete'
+        required: true
+        default: 'navidataIO.Utils'
+      package-version:
+        description: 'The package version to delete'
+        required: true
+        default: '99.99.99'
+
+jobs:
+  delete-package-version:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+    - uses: actions/delete-package-versions@v5
+      with:
+        package-name: ${{ github.event.inputs.package-name }}
+        package-version-ids: ${{ github.event.inputs.package-version }}
+        package-type: 'nuget'

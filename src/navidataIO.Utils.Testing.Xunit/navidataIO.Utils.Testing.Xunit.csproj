@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>.Net utilities and extensions for xunit (classic) projects</Description>
+    <PackageTags>dotnet;testing;xunit</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\navidataIO.Utils.Testing.Shared\Testing\**\*.cs" LinkBase="Testing" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\navidataIO.Utils\navidataIO.Utils.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="xunit.extensibility.core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,42 @@
+﻿<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <RootNamespace>navidataIO.Utils</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild Condition=" '$(GeneratePackageOnBuild)' == '' ">true</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <PackageIcon>navidataIO.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile> <!-- https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#packagereadmefile -->
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(ENVIRONMENT)' == 'nuget.org' ">
+    <!-- Create symbols: https://learn.microsoft.com/nuget/create-packages/symbol-packages-snupkg -->
+    <IncludeSymbols>true</IncludeSymbols>             <!-- Whether or not symbols package is produced -->
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <DebugType>portable</DebugType>                   <!-- portable|embedded|pdbonly|full|none; pdbonly|full is legacy -->
+    <DebugSymbols>true</DebugSymbols>                 <!-- Whether or not the compiler emits .pdb -->
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(ENVIRONMENT)' == 'github' ">
+    <IncludeSymbols>false</IncludeSymbols>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\navidataIO.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+
+</Project>
