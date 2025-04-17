@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <IsTestProject>false</IsTestProject>
+    <Description>Serilog logging extensions for xunit (classic) projects</Description>
+    <PackageTags>dotnet;testing;xunit;logging</PackageTags>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\navidataIO.Utils\navidataIO.Utils.csproj" />

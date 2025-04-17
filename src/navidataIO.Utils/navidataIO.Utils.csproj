@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageId>navidataIO.Utils</PackageId>
     <Description>Utility package for .Net applications</Description>
     <PackageTags>dotnet;utilities</PackageTags>
   </PropertyGroup>

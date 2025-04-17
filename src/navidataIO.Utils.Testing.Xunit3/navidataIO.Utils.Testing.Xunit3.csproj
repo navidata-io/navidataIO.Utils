@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <IsTestProject>false</IsTestProject>
+    <Description>.Net utilities and extensions for xunit v3 projects</Description>
+    <PackageTags>dotnet;testing;xunit</PackageTags>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\navidataIO.Utils.Testing.Shared\Testing\**\*.cs" LinkBase="Testing" />
