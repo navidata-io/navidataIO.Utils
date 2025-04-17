@@ -104,29 +104,29 @@ jobs:
         allow-no-subscriptions: true
 
     - name: Sign packages
-      shell: bash
+      shell: cmd
       working-directory: ./packages
       env:
         AKV_URL: ${{ secrets.PBITOOLS_KVU }}
         AKV_CERT_NAME: ${{ secrets.PBITOOLS_KVC }}
       run: |
-        NuGetKeyVaultSignTool sign \
-          -kvu $AKV_URL \
-          -kvc $AKV_CERT_NAME \
-          -kvm \
-          -tr http://timestamp.globalsign.com/tsa/advanced \
-          -td sha256 \
-          -fd sha256 \
-          -o ./packages-signed \
+        NuGetKeyVaultSignTool sign ^
+          -kvu %AKV_URL% ^
+          -kvc %AKV_CERT_NAME% ^
+          -kvm ^
+          -tr http://timestamp.globalsign.com/tsa/advanced ^
+          -td sha256 ^
+          -fd sha256 ^
+          -o ./packages-signed ^
           *.nupkg
-        NuGetKeyVaultSignTool sign \
-          -kvu $AKV_URL \
-          -kvc $AKV_CERT_NAME \
-          -kvm \
-          -tr http://timestamp.globalsign.com/tsa/advanced \
-          -td sha256 \
-          -fd sha256 \
-          -o ./packages-signed \
+        NuGetKeyVaultSignTool sign ^
+          -kvu %AKV_URL% ^
+          -kvc %AKV_CERT_NAME% ^
+          -kvm ^
+          -tr http://timestamp.globalsign.com/tsa/advanced ^
+          -td sha256 ^
+          -fd sha256 ^
+          -o ./packages-signed ^
           *.snupkg
 
     - name: List downloaded files
