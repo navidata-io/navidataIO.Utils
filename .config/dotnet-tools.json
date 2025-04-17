@@ -9,10 +9,10 @@
       ],
       "rollForward": false
     },
-    "azuresigntool": {
-      "version": "6.0.1",
+    "nugetkeyvaultsigntool": {
+      "version": "3.2.3",
       "commands": [
-        "azuresigntool"
+        "NuGetKeyVaultSignTool"
       ],
       "rollForward": false
     }

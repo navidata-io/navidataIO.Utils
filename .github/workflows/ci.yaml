@@ -74,18 +74,16 @@ jobs:
     needs: build-pack-test
     permissions:
       id-token: write
+
     steps:
     - name: Download NUPKG
       uses: actions/download-artifact@v4
       with:
         name: nuget-packages
         path: ./packages
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8
+
     - name: Install AzureSignTool
-      run: dotnet tool install -g AzureSignTool
+      run: dotnet tool install -g NuGetKeyVaultSignTool
 
     - name: Azure Login
       uses: azure/login@v2
@@ -93,36 +91,32 @@ jobs:
         client-id: ${{ secrets.PBITOOLS_KVI }}
         tenant-id: ${{ secrets.PBITOOLS_KVT }}
         subscription-id: ${{ secrets.PBITOOLS_AKV_SUBSCRIPTION_ID }}
-        enable-AzPSSession: true
-    - name: Get KeyVault AccessToken
-      uses: azure/powershell@v2
-      id: get-token
-      with:
-        azPSVersion: latest
-        inlineScript: |
-          $encryptedToken = (Get-AzAccessToken -AsSecureString -ResourceTypeName KeyVault).token
-          $tokenCredential = [PSCredential]::new("token", $encryptedToken)
-          Write-Output "AKV_ACCESS_TOKEN=$($tokenCredential.GetNetworkCredential().Password)" >> $env:GITHUB_OUTPUT
+        allow-no-subscriptions: true
 
     - name: Sign packages
-      shell: cmd
+      shell: bash
+      working-directory: ./packages
       env:
         AKV_URL: ${{ secrets.PBITOOLS_KVU }}
         AKV_CERT_NAME: ${{ secrets.PBITOOLS_KVC }}
-        AKV_ACCESS_TOKEN: ${{ steps.get-token.outputs.AKV_ACCESS_TOKEN }}
       run: |
-          dir /s /b .\packages\*nupkg > %RUNNER_TEMP%\nupkg-files.txt
-          azuresigntool ^
-            sign ^
-            -kvu %AKV_URL% ^
-            -kva %AKV_ACCESS_TOKEN% ^
-            -kvc %AKV_CERT_NAME% ^
-            -du https://github.com/navidata-io/navidataIO.Utils ^
-            -tr http://timestamp.digicert.com ^
-            -td sha384 ^
-            -fd sha384 ^
-            -ifl %RUNNER_TEMP%\nupkg-files.txt ^
-            -v
+        NuGetKeyVaultSignTool sign \
+          -kvu $AKV_URL \
+          -kvc $AKV_CERT_NAME \
+          -kvm \
+          -tr http://timestamp.globalsign.com/tsa/advanced \
+          -td sha256 \
+          -fd sha256 \
+          ./*.nupkg
+        NuGetKeyVaultSignTool sign \
+          -kvu $AKV_URL \
+          -kvc $AKV_CERT_NAME \
+          -kvm \
+          -tr http://timestamp.globalsign.com/tsa/advanced \
+          -td sha256 \
+          -fd sha256 \
+          ./*.snupkg
+
     - name: Upload Artifact
       id: upload-nupkg
       uses: actions/upload-artifact@v4
