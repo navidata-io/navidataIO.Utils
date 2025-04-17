@@ -47,7 +47,6 @@ jobs:
       run: |
         dotnet build \
           -c Release \
-          -p:PackageVersion=${{env.GitVersion_SemVer}} \
           -p:ENVIRONMENT=${{env.ENVIRONMENT}} \
           --no-restore
     - name: dotnet test
