@@ -182,11 +182,12 @@ jobs:
       - name: Publish to nuget.org
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_ORG_API_KEY_navidataIO }}
+        working-directory: ./artifacts
         run: |
           dotnet nuget push \
-            ./artifacts/*nupkg \
+            "*.nupkg" \
             --api-key ${{env.NUGET_API_KEY}} \
-            --source https://api.nuget.org/v3/index.json
+            --source https://api.nuget.org/v3/index.json \
       - name: Job Summary
         run: |
           echo "## Published $VERSION to nuget.org" >> $GITHUB_STEP_SUMMARY
