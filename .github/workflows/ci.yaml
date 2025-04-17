@@ -89,7 +89,7 @@ jobs:
       with:
         name: nuget-packages
         path: ./packages
-    - name: Display structure of downloaded files
+    - name: List downloaded files
       run: ls -R ./packages
 
     - name: Install AzureSignTool
@@ -117,6 +117,7 @@ jobs:
           -tr http://timestamp.globalsign.com/tsa/advanced \
           -td sha256 \
           -fd sha256 \
+          -o ./packages-signed \
           *.nupkg
         NuGetKeyVaultSignTool sign \
           -kvu $AKV_URL \
@@ -125,14 +126,17 @@ jobs:
           -tr http://timestamp.globalsign.com/tsa/advanced \
           -td sha256 \
           -fd sha256 \
+          -o ./packages-signed \
           *.snupkg
 
+    - name: List downloaded files
+      run: ls -R ./packages-signed
     - name: Upload Artifact
       id: upload-nupkg
       uses: actions/upload-artifact@v4
       with:
         name: nuget-packages-signed
-        path: ./packages
+        path: ./packages-signed
     outputs:
       PKG_VERSION: ${{ needs.build-pack-test.outputs.PKG_VERSION }}
 
