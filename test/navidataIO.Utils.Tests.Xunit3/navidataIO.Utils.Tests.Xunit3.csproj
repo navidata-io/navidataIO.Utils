@@ -5,6 +5,8 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\navidataIO.Utils\navidataIO.Utils.csproj" />
+    <Compile Include="..\navidataIO.Utils.Tests\**\*.cs" 
+             Exclude="..\navidataIO.Utils.Tests\bin\**\*;..\navidataIO.Utils.Tests\obj\**\*" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="coverlet.collector">
