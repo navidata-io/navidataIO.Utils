@@ -19,6 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <GlobalPackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.25" />
-    <GlobalPackageReference Include="GitVersion.MsBuild" Version="6.2.0" />
+    <GlobalPackageReference Include="GitVersion.MsBuild" Version="6.3.0" />
   </ItemGroup>
 </Project>
