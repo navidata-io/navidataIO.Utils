@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿// Copyright (c) 2024 navidata.io Corp
+// LICENSE-SPDX: <LGPL-3.0-only>
+
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace navidataIO.Utils.Json;

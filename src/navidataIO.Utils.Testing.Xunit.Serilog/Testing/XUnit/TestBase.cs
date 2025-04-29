@@ -1,4 +1,7 @@
-﻿using Xunit.Abstractions;
+﻿// Copyright (c) 2024 navidata.io Corp
+// LICENSE-SPDX: <LGPL-3.0-only>
+
+using Xunit.Abstractions;
 using Serilog;
 using Serilog.Core;
 

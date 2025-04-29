@@ -1,4 +1,7 @@
-﻿namespace navidataIO.Utils.IO;
+﻿// Copyright (c) 2024 navidata.io Corp
+// LICENSE-SPDX: <LGPL-3.0-only>
+
+namespace navidataIO.Utils.IO;
 
 /// <summary>
 /// Represents an immutable relative file path and provides convenience methods for accessing path segments and combining paths.

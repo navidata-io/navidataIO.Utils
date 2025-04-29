@@ -1,4 +1,7 @@
-﻿// ReSharper disable once CheckNamespace
+﻿// Copyright (c) 2024 navidata.io Corp
+// LICENSE-SPDX: <LGPL-3.0-only>
+
+// ReSharper disable once CheckNamespace
 namespace System.IO;
 
 /// <summary>
