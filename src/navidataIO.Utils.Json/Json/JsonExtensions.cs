@@ -3,6 +3,7 @@
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace navidataIO.Utils.Json;
 
@@ -49,11 +50,10 @@ public static class JsonExtensions
     /// Attempts to convert the specified JSON property to a value of type <typeparamref name="T"/>.
     /// Returns the converted value, or the default value if the property does not exist or cannot be converted.
     /// </summary>
-    public static T? ReadPropertySafe<T>(this JObject json, string property, T? defaultValue = default, ILogger? logger = default)
+    public static T? ReadPropertySafe<T>(this JObject json, string property, T? defaultValue = default, ILogger? logger = null)
     { 
         if (json == null) throw new ArgumentNullException(nameof(json));
-        if (string.IsNullOrEmpty(property))
-            throw new ArgumentException("Value cannot be null or empty.", nameof(property));
+        if (string.IsNullOrEmpty(property)) throw new ArgumentException("Value cannot be null or empty.", nameof(property));
 
         if (json.TryGetValue(property, StringComparison.InvariantCultureIgnoreCase, out var value))
         {
@@ -121,11 +121,11 @@ public static class JsonExtensions
         try
         {
             result = JsonConvert.DeserializeObject<T>(json);
-            return result != default;
+            return result != null;
         }
         catch
         {
-            result = default;
+            result = null;
             return false;
         }
     }
@@ -142,7 +142,7 @@ public static class JsonExtensions
         }
         catch
         {
-            result = default;
+            result = null;
             return false;
         }
     }        
@@ -159,7 +159,7 @@ public static class JsonExtensions
         }
         catch 
         {
-            result = default;
+            result = null;
             return false;
         }
     }
@@ -167,9 +167,196 @@ public static class JsonExtensions
     /// <summary>
     /// Serializes the object to a JSON string, with specified formatting.
     /// </summary>
+    [Obsolete("Use AsJson<T>(T?, Formatting) instead.")]
     public static string ToJsonString<T>(this T? value, Newtonsoft.Json.Formatting format = Newtonsoft.Json.Formatting.Indented) where T : class =>
-        value == default
+        value == null
             ? ""
             : JsonConvert.SerializeObject(value, new JsonSerializerSettings { Formatting = format, NullValueHandling = NullValueHandling.Ignore });
+
+    /// <summary>
+    /// Creates or overwrites the named property on a <see cref="JObject"/>, but only if the provided value is not <c>null</c>.
+    /// </summary>
+    public static JObject WithOptional(this JObject json, string propertyName, JToken? value)
+    {
+        if (json == null) throw new ArgumentNullException(nameof(json));
+        if (propertyName == null) throw new ArgumentNullException(nameof(propertyName));
+
+        if (value is null || value is { Type: JTokenType.Null }) return json;
+        if (value is JValue { Value: null } /* default(string) */) return json;
+
+        json[propertyName] = value;
+        return json;
+    }
+
+    /// <summary>
+    /// Creates or overwrites the named property on a <see cref="JObject"/>, but only if the provided value is not <c>null</c>
+    /// and the provided factory method produces a non-null <see cref="JToken"/>.
+    /// </summary>
+    public static JObject WithOptional<T>(this JObject json, string propertyName, T? value, Func<T, JToken?> createToken)
+    {
+        if (json == null) throw new ArgumentNullException(nameof(json));
+        if (propertyName == null) throw new ArgumentNullException(nameof(propertyName));
+        
+        if (value is null) return json;
+
+        if (createToken(value) is { } token)
+            json[propertyName] = token;
+        return json;
+    }
+
+    /// <summary>
+    /// Creates or overwrites the named JSON property as a new <see cref="JArray"/>,
+    /// generated from items of the provides collection using the provided <paramref name="createToken"/> factory method,
+    /// but only if the provided collection is not <c>null</c>. Any items producing a <c>null</c> token are ignored.
+    /// </summary>
+    public static JObject WithOptionalArray<T>(this JObject parent, string propertyName,
+        ICollection<T>? collection, Func<T, JToken?> createToken)
+    {
+        if (parent == null) throw new ArgumentNullException(nameof(parent));
+        if (propertyName == null) throw new ArgumentNullException(nameof(propertyName));
+
+        if (collection is null) return parent;
+
+        parent[propertyName] = new JArray(collection.Select(createToken).WhereNotNull());
+        return parent;
+    }
+
+    /// <summary>
+    /// Creates or overwrites the named property on a <see cref="JObject"/>, regardless of the provided value.
+    /// </summary>
+    public static JObject WithProperty(this JObject json, string propertyName, JToken? value)
+    {
+        if (json == null) throw new ArgumentNullException(nameof(json));
+        if (propertyName == null) throw new ArgumentNullException(nameof(propertyName));
+        json[propertyName] = value;
+        return json;
+    }
+
+    /// <summary>
+    /// Selects a <see cref="JObject"/> from the provided JSON at the specified path.
+    /// Throws an <see cref="InvalidOperationException"/> if the token is not a <see cref="JObject"/> or does not exist.
+    /// </summary>
+    public static JObject RequireObject(this JObject json, string jsonPath)
+    {
+        if (json == null) throw new ArgumentNullException(nameof(json));
+        return json.SelectObject(jsonPath, throwIfNull: true)!;
+    }
+
+    /// <summary>
+    /// Selects a <see cref="JObject"/> from the provided JSON at the specified path.
+    /// Returns <c>null</c> if the token does not exist, unless <paramref name="throwIfNull"/> is <c>true</c>,
+    /// in which case an <see cref="InvalidOperationException"/> is thrown.
+    /// Always throws an <see cref="InvalidOperationException"/> if the token is not a <see cref="JObject"/>.
+    /// </summary>
+    public static JObject? SelectObject(this JObject json, string jsonPath, bool throwIfNull = false) =>
+        (json ?? throw new ArgumentNullException(nameof(json))).SelectToken(jsonPath) switch
+        {
+            JObject jObject => jObject,
+            null when throwIfNull => throw new InvalidOperationException($"Expected token at path {jsonPath} does not exist and 'throwIfNull' was selected."),
+            null => null,
+            _ => throw new InvalidOperationException($"Unable to select object from JSON at path: {jsonPath}")
+        };
+
+    /// <summary>
+    /// Renames a property on a <see cref="JObject"/>. If the property does not exist, it is ignored.
+    /// </summary>
+    public static JObject RenameProperty(this JObject parent, string oldName, string newName)
+    {
+        if (parent[oldName] is { } existingToken)
+        {
+            parent[newName] = existingToken;
+            parent.Remove(oldName);
+        }
+        return parent;
+    }
+
+    /// <summary>
+    /// Removes the specified properties from a <see cref="JObject"/>. If a property does not exist, it is ignored.
+    /// </summary>
+    public static JObject RemoveProperties(this JObject obj, params string[] propertyNames)
+    {
+        if (obj == null) throw new ArgumentNullException(nameof(obj));
+
+        foreach (var propertyName in propertyNames)
+        {
+            obj.Remove(propertyName);
+        }
+        return obj;
+    }
+
+    /// <summary>
+    /// Serializes the object to a JSON string.
+    /// </summary>
+    /// <param name="obj">The object to serialize.</param>
+    /// <param name="formatting">The (optional) <see cref="Formatting"/> to apply when serializing. If omitted, and no <paramref name="serializerSettings"/> are provided, <see cref="Formatting.Indented"/> is used. If set, and <paramref name="serializerSettings"/> are provided, this argument overwrites <see cref="JsonSerializerSettings.Formatting"/>.</param>
+    /// <param name="serializerSettings">The (optional) <see cref="JsonSerializerSettings"/> to use when serializing.</param>
+    /// <param name="resultIfNull">The value to return if <paramref name="obj"/> is null (default is <c>null</c>).</param>
+    /// <returns>The serialized object as a string.</returns>
+    public static string? AsJson<T>(this T? obj, Formatting? formatting = null,
+        JsonSerializerSettings? serializerSettings = null, string? resultIfNull = null)
+    {
+        if (obj is null) return resultIfNull;
+
+        var settings = serializerSettings ?? new JsonSerializerSettings();
+        if (serializerSettings is null && formatting is null)
+            settings.Formatting = Formatting.Indented;
+        else if (formatting is not null)
+            settings.Formatting = formatting.Value;
+
+        return obj.AsJson(JsonSerializer.Create(settings));
+    }
+
+    /// <summary>
+    /// Serializes the object to a JSON string.
+    /// </summary>
+    /// <param name="obj">The object to serialize.</param>
+    /// <param name="serializer">The <see cref="JsonSerializer"/> to use when serializing.</param>
+    /// <param name="resultIfNull">The value to return if <paramref name="obj"/> is null (default is <c>null</c>).</param>
+    /// <returns>The serialized object as a string.</returns>
+    public static string? AsJson<T>(this T? obj, JsonSerializer serializer, string? resultIfNull = null)
+    {
+        if (obj is null) return resultIfNull;
+        if (serializer == null) throw new ArgumentNullException(nameof(serializer));
+
+        var sb = new StringBuilder();
+        using (var writer = new StringWriter(sb))
+        {
+            serializer.Serialize(writer, obj);
+        }
+        return sb.ToString();
+    }
+
+
+    /// <summary>
+    /// Creates a <see cref="JToken"/> from the provided object using the specified <see cref="JsonSerializer"/>.
+    /// Returns <c>null</c> if the object is <c>null</c>.
+    /// </summary>
+    /// <param name="obj">The object to convert to JSON.</param>
+    /// <param name="formatting">The (optional) <see cref="Formatting"/> to apply when serializing. If omitted, and no <paramref name="serializerSettings"/> are provided, <see cref="Formatting.Indented"/> is used. If set, and <paramref name="serializerSettings"/> are provided, this argument overwrites <see cref="JsonSerializerSettings.Formatting"/>.</param>
+    /// <param name="serializerSettings">The (optional) <see cref="JsonSerializerSettings"/> to use when serializing.</param>
+    public static JToken? ToJson<T>(this T obj, Formatting? formatting = null,
+        JsonSerializerSettings? serializerSettings = null)
+    {
+        var settings = serializerSettings ?? new JsonSerializerSettings();
+        if (serializerSettings is null && formatting is null)
+            settings.Formatting = Formatting.Indented;
+        else if (formatting is not null)
+            settings.Formatting = formatting.Value;
+        var serializer = JsonSerializer.Create(settings);
+
+        return obj.ToJson(serializer);
+    }
+
+    /// <summary>
+    /// Creates a <see cref="JToken"/> from the provided object using the specified <see cref="JsonSerializer"/>.
+    /// Returns <c>null</c> if the object is <c>null</c>.
+    /// </summary>
+    public static JToken? ToJson<T>(this T obj, JsonSerializer serializer)
+    {
+        object? o = obj;
+        return o is null
+            ? null
+            : JToken.FromObject(o, serializer ?? throw new ArgumentNullException(nameof(serializer)));
+    }
 
 }
