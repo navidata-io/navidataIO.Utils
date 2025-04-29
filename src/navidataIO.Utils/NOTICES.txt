@@ -1,0 +1,130 @@
+﻿License notice for Microsoft.Extensions.Logging.Abstractions (v9.0.4)
+------------------------------------
+
+https://github.com/dotnet/runtime at f57e6dc747158ab7ade4e62a75a6750d16b771e8
+
+https://dot.net/
+
+Copyright © Microsoft Corporation. All rights reserved.
+
+Licensed under MIT
+
+Available at https://licenses.nuget.org/MIT
+
+
+License notice for NETStandard.Library (v2.0.3)
+------------------------------------
+
+https://dot.net/
+
+.NET Foundation and Contributors
+
+License available at https://github.com/dotnet/standard/blob/master/LICENSE.TXT
+
+
+License notice for Microsoft.Bcl.AsyncInterfaces (v9.0.4)
+------------------------------------
+
+https://github.com/dotnet/runtime at f57e6dc747158ab7ade4e62a75a6750d16b771e8
+
+https://dot.net/
+
+Copyright © Microsoft Corporation. All rights reserved.
+
+Licensed under MIT
+
+Available at https://licenses.nuget.org/MIT
+
+
+License notice for Microsoft.Extensions.DependencyInjection.Abstractions (v9.0.4)
+------------------------------------
+
+https://github.com/dotnet/runtime at f57e6dc747158ab7ade4e62a75a6750d16b771e8
+
+https://dot.net/
+
+Copyright © Microsoft Corporation. All rights reserved.
+
+Licensed under MIT
+
+Available at https://licenses.nuget.org/MIT
+
+
+License notice for Microsoft.NETCore.Platforms (v1.1.0)
+------------------------------------
+
+https://dot.net/
+
+Copyright © Microsoft Corporation.  All rights reserved.
+
+License available at http://go.microsoft.com/fwlink/?LinkId=329770
+
+
+License notice for System.Buffers (v4.5.1)
+------------------------------------
+
+https://dot.net/
+
+Copyright © Microsoft Corporation. All rights reserved.
+
+License available at https://github.com/dotnet/corefx/blob/master/LICENSE.TXT
+
+
+License notice for System.Diagnostics.DiagnosticSource (v9.0.4)
+------------------------------------
+
+https://github.com/dotnet/runtime at f57e6dc747158ab7ade4e62a75a6750d16b771e8
+
+https://dot.net/
+
+Copyright © Microsoft Corporation. All rights reserved.
+
+Licensed under MIT
+
+Available at https://licenses.nuget.org/MIT
+
+
+License notice for System.Memory (v4.5.5)
+------------------------------------
+
+https://dot.net/
+
+Copyright © Microsoft Corporation. All rights reserved.
+
+License available at https://github.com/dotnet/corefx/blob/master/LICENSE.TXT
+
+
+License notice for System.Numerics.Vectors (v4.4.0)
+------------------------------------
+
+https://dot.net/
+
+Copyright © Microsoft Corporation.  All rights reserved.
+
+License available at https://github.com/dotnet/corefx/blob/master/LICENSE.TXT
+
+
+License notice for System.Runtime.CompilerServices.Unsafe (v6.0.0)
+------------------------------------
+
+https://github.com/dotnet/runtime at 4822e3c3aa77eb82b2fb33c9321f923cf11ddde6
+
+https://dot.net/
+
+Copyright © Microsoft Corporation. All rights reserved.
+
+Licensed under MIT
+
+Available at https://licenses.nuget.org/MIT
+
+
+License notice for System.Threading.Tasks.Extensions (v4.5.4)
+------------------------------------
+
+https://dot.net/
+
+Copyright © Microsoft Corporation. All rights reserved.
+
+License available at https://github.com/dotnet/corefx/blob/master/LICENSE.TXT
+
+

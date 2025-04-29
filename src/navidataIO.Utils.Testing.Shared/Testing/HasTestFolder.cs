@@ -1,4 +1,7 @@
-﻿namespace navidataIO.Utils.Testing;
+﻿// Copyright (c) 2024 navidata.io Corp
+// LICENSE-SPDX: <LGPL-3.0-only>
+
+namespace navidataIO.Utils.Testing;
 
 /// <summary>
 /// A component with a dynamically-generated test folder.

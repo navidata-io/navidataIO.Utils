@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿// Copyright (c) 2024 navidata.io Corp
+// LICENSE-SPDX: <LGPL-3.0-only>
+
+using System.Diagnostics;
 
 // ReSharper disable once CheckNamespace
 namespace Xunit;

@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// Copyright (c) 2024 navidata.io Corp
+// LICENSE-SPDX: <LGPL-3.0-only>
+
+using System.Collections;
 using System.Reflection;
 using System.Text;
 

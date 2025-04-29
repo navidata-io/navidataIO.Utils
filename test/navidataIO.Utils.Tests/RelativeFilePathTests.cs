@@ -1,3 +1,6 @@
+// Copyright (c) 2024 navidata.io Corp
+// LICENSE-SPDX: <LGPL-3.0-only>
+
 namespace navidataIO.Utils.Tests;
 
 using Xunit;
@@ -29,5 +32,23 @@ public class RelativeFilePathTests
     {
         var relPath = RelativeFilePath.Create(fullPath, basePath, separator);
         Assert.Equal(expectedResult, relPath);
+    }
+
+    [Fact]
+    public void EqualityComparison_excludes_path_separator()
+    {
+        var dict = new Dictionary<RelativeFilePath, string>
+        {
+            {"foo/bar", "forward-slash" }
+        };
+
+        Assert.True(dict.TryGetValue(@"foo\bar", out var value));
+        Assert.Equal("forward-slash", value);
+    }
+
+    [Fact]
+    public void Two_default_instances_are_equal()
+    {
+        Assert.Equal(default, default(RelativeFilePath));
     }
 }

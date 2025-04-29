@@ -1,4 +1,7 @@
-﻿namespace navidataIO.Utils.IO;
+﻿// Copyright (c) 2024 navidata.io Corp
+// LICENSE-SPDX: <LGPL-3.0-only>
+
+namespace navidataIO.Utils.IO;
 
 /// <summary>
 /// Represents an immutable relative file path and provides convenience methods for accessing path segments and combining paths.
@@ -107,14 +110,22 @@ public readonly struct RelativeFilePath : IEquatable<RelativeFilePath>
     public override bool Equals(object? obj) => obj is RelativeFilePath other && Equals(other);
 
     /// <inheritdoc />
-    public override int GetHashCode() => ToString().GetHashCode();
-    // see https://stackoverflow.com/a/371348/736263
+    public override int GetHashCode()
+    {
+        if (Segments == null) return 0;
+
+        unchecked
+        {
+            return Segments.Aggregate(17, (hash, item) => hash * 31 + (item?.GetHashCode() ?? 0));
+        }
+    }
 
     /// <inheritdoc />
     public bool Equals(RelativeFilePath other) =>
-        this.DirectorySeparator.Equals(other.DirectorySeparator)
-        && this.Segments.Length == other.Segments.Length
-        && this.Segments.SequenceEqual(other.Segments, StringComparer.InvariantCulture);
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        (this.Segments == null && other.Segments == null)
+        || (this.Segments?.Length == other.Segments?.Length
+            && this.Segments.SequenceEqual(other.Segments, StringComparer.InvariantCulture /* ensures the comparison is culture-invariant */));
 
     #endregion
 }

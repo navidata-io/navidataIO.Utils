@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿// Copyright (c) 2024 navidata.io Corp
+// LICENSE-SPDX: <LGPL-3.0-only>
+
+using System.Text;
 
 namespace navidataIO.Utils.IO;
 
