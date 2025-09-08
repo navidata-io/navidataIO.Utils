@@ -37,7 +37,7 @@ jobs:
         restore-keys: |
           nuget-
     - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
     - name: dotnet info
       run: dotnet --info
     - name: dotnet restore
